@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('block')->nullable();
             $table->string('number');
             $table->unsignedInteger('parking_spot_limit')->default(1);
+            $table->unique(['condominium_id', 'block', 'number']);
             $table->timestamps();
         });
     }
