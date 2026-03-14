@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Condominium extends Model
 {
+
+    protected $table = 'condominiums';
+    
     use HasFactory;
 
     protected $guarded = [];
