@@ -3,33 +3,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Traits\BelongsToCondominium;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Apartment extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCondominium;
 
     protected $guarded = [];
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('condominium', function (Builder $builder) {
-            if (!Auth::check()) {
-                return;
-            }
-            /** @var \App\Models\User $user */
-            $user = Auth::user();
-            $builder->where('condominium_id', $user->condominium_id);
-        });
-    }
-
-    public function condominium(): BelongsTo
-    {
-        return $this->belongsTo(Condominium::class);
-    }
-
 }
