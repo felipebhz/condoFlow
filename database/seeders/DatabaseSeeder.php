@@ -20,6 +20,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        User::factory()->create([
+            'name' => 'Super Admin CondoFlow',
+            'email' => 'superadmin@condoflow.com',
+            'password' => Hash::make('password'),
+            'is_super_admin' => true,
+            'condominium_id' => null,
+        ]);
+
         $condominium = Condominium::factory()->create([
             'name' => 'Sunset Boulevard',
             'tax_id' => '00.000.000/0001-00',
@@ -27,15 +35,15 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin Syndic',
-            'email' => 'admin@sunset.com',
+            'email' => 'syndic@sunsetboulevard.condoflow.com',
             'password' => Hash::make('password'),
             'condominium_id' => $condominium->id,
         ]);
 
-        $blocks = ['A', 'B'];
+        $blocks = ['A', 'B', 'C', 'D'];
 
         foreach ($blocks as $block) {
-            Apartment::factory()->count(10)->state(new Sequence(fn($sequence) => [
+            Apartment::factory()->count(4)->state(new Sequence(fn($sequence) => [
                 'block' => $block,
                 'number' => (string) (101 + $sequence->index),
             ]))->create([

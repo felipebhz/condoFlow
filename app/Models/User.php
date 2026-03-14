@@ -48,11 +48,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'is_super_admin' => 'boolean',
         ];
     }
 
     public function condominium(): BelongsTo
     {
         return $this->belongsTo(Condominium::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return null === $this->condominium_id
+            && $this->is_active
+            && $this->is_super_admin;
     }
 }
