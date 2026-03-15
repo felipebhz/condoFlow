@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('apartments')->group(function () {
         Route::post('/', [ApartmentController::class, 'store']);
-        // No futuro: Route::get('/', [ApartmentController::class, 'index']);
+        Route::get('/', [ApartmentController::class, 'index']);
     });
 
     Route::prefix('condominium')->group(function() {
