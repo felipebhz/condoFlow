@@ -15,7 +15,11 @@ class Condominium extends Model
     
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'tax_id',
+        'address'
+    ];
 
     public function apartments(): HasMany
     {

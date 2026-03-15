@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApartmentController;
+use App\Http\Controllers\Api\CondominiumController;
+use App\Models\Condominium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('apartments')->group(function () {
         Route::post('/', [ApartmentController::class, 'store']);
         // No futuro: Route::get('/', [ApartmentController::class, 'index']);
+    });
+
+    Route::prefix('condominium')->group(function() {
+        Route::post('/add', [CondominiumController::class, 'store']);
     });
 });
 

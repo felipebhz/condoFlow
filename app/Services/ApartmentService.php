@@ -6,9 +6,7 @@ namespace App\Services;
 
 use App\DTOs\Apartment\StoreApartmentDTO;
 use App\Models\Apartment;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Throwable;
 
 final class ApartmentService
 {
