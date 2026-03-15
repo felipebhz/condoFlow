@@ -21,6 +21,7 @@ final class ApartmentResource extends JsonResource
             'id' => (int) $this->resource->id,
             'block' => $this->resource->block,
             'number' => $this->resource->number,
+            'condominium_id' => (int) $this->resource->condominium_id,
             'parking_spot_limit' => (int) $this->resource->parking_spot_limit,
         ];
     }

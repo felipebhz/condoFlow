@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTOs\Apartment\StoreApartmentDTO;
 use App\Models\Apartment;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 final class ApartmentService
@@ -29,5 +30,10 @@ final class ApartmentService
 
             return $apartment;
         });
+    }
+
+    public function paginate(int $perPage = 5): LengthAwarePaginator
+    {
+        return Apartment::paginate($perPage);
     }
 }
