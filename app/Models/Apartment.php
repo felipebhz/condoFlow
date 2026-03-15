@@ -11,5 +11,14 @@ class Apartment extends Model
 {
     use HasFactory, BelongsToCondominium;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'block',
+        'number',
+        'parking_spot_limit',
+        'condominium_id',
+    ];
+
+    protected $casts = [
+        'parking_spot_limit' => 'int',
+    ];
 }

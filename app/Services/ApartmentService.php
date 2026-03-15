@@ -20,7 +20,7 @@ final class ApartmentService
     public function createForUser(User $user, array $data): Apartment
     {
         return DB::transaction(function () use ($user, $data): Apartment {
-            $apartment = $user->apartments()->create([
+            $apartment = Apartment::create([
                 'block' => $data['block'] ?? null,
                 'number' => $data['number'],
                 'parking_spot_limit' => $data['parking_spot_limit'] ?? 1,

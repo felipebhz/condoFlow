@@ -13,6 +13,14 @@ trait BelongsToCondominium
 {
     public static function bootBelongsToCondominium(): void
     {
+
+        static::creating(function ($model) {
+            if (Auth::check()) {
+                // Aqui é onde a mágica acontece!
+                $model->condominium_id = Auth::user()->condominium_id;
+            }
+        });
+
         static::addGlobalScope('condominium', function (Builder $builder) {
             if (!Auth::check()) {
                 return;
@@ -20,7 +28,7 @@ trait BelongsToCondominium
 
             /** @var \App\Models\User $user */
             $user = Auth::user();
-            
+
             if ($user->condominium_id) {
                 $builder->where('condominium_id', $user->condominium_id);
             }
