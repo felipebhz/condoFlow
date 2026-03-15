@@ -16,10 +16,8 @@ class ApartmentController extends Controller
 
     public function store(StoreApartmentRequest $request)
     {
-        $apartment = $this->apartmentService->createForUser(
-            $request->user(), 
-            $request->validated()
-        );
+        $apartmentDTO = $request->toDTO();
+        $apartment = $this->apartmentService->createForUser($apartmentDTO);
         return new ApartmentResource($apartment);
     }
 }

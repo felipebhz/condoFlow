@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Apartment;
 
+use App\DTOs\Apartment\StoreApartmentDTO;
 use App\Models\Apartment;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,5 +45,14 @@ final class StoreApartmentRequest extends FormRequest
         return [
             'number.unique' => 'Este número de apartamento já existe neste bloco.',
         ];
+    }
+
+    public function toDTO(): StoreApartmentDTO
+    {
+        return new StoreApartmentDTO(
+            block: $this->validated('block'),
+            number: $this->validated('number'),
+            parkingSpotLimit: (int) $this->validated('parking_spot_limit'),
+        );
     }
 }

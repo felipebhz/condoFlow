@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTOs\Apartment\StoreApartmentDTO;
 use App\Models\Apartment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -17,13 +18,13 @@ final class ApartmentService
      * @param array{block: ?string, number: string, parking_spot_limit: ?int} $data
      * @throws Throwable
      */
-    public function createForUser(User $user, array $data): Apartment
+    public function createForUser(StoreApartmentDTO $storeApartmentDTO): Apartment
     {
-        return DB::transaction(function () use ($user, $data): Apartment {
+        return DB::transaction(function () use ($storeApartmentDTO): Apartment {
             $apartment = Apartment::create([
-                'block' => $data['block'] ?? null,
-                'number' => $data['number'],
-                'parking_spot_limit' => $data['parking_spot_limit'] ?? 1,
+                'block' => $storeApartmentDTO->block,
+                'number' => $storeApartmentDTO->number,
+                'parking_spot_limit' => $storeApartmentDTO->parkingSpotLimit,
             ]);
 
             $this->lastCreated = $apartment;
