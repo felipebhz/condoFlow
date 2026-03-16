@@ -27,14 +27,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::prefix('apartments')->group(function () {
-        Route::post('/', [ApartmentController::class, 'store']);
-        Route::get('/', [ApartmentController::class, 'index']);
-    });
+    Route::apiResource('apartments', ApartmentController::class);
 
-    Route::prefix('condominium')->group(function() {
-        Route::post('/add', [CondominiumController::class, 'store']);
-    });
+    Route::apiResource('condominiuns', CondominiumController::class);
 });
 
 Route::get('/user', function (Request $request) {
