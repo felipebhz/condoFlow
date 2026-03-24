@@ -50,4 +50,9 @@ final class ApartmentService
     {
         return Apartment::paginate($perPage);
     }
+
+    public function delete(Apartment $apartment): bool
+    {
+        return $apartment->delete();
+    }
 }

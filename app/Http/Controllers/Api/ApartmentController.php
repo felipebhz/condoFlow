@@ -38,4 +38,10 @@ class ApartmentController extends Controller
         $updatedApartment = $this->apartmentService->update($apartment, $apartmentDTO);
         return new ApartmentResource($updatedApartment);
     }
+
+    public function destroy(Apartment $apartment)
+    {
+        $this->apartmentService->delete($apartment);
+        return response()->json(null, 204);
+    }
 }
