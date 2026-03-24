@@ -26,7 +26,10 @@ final class UpdateApartmentRequest extends FormRequest
     public function rules(): array
     {
         $routeParam = $this->route('apartments');
-        $apartmentId = $routeParam instanceof Apartment ? $routeParam->id : $routeParam;
+        $apartment = $routeParam instanceof \App\Models\Apartment ? $routeParam : \App\Models\Apartment::findOrFail($routeParam);
+        $condominiumId = $this->user()->condominium_id;
+
+        $blockToCheck = $this->has('block') ? $this->validated('block') : $apartment->block;
 
         return [
             'block' => ['sometimes', 'required', 'string', 'max:10'],
@@ -35,7 +38,11 @@ final class UpdateApartmentRequest extends FormRequest
                 'required',
                 'string',
                 'max:20',
-                Rule::unique('apartments', 'number')->ignore($apartmentId),
+                Rule::unique('apartments', 'number')
+                    ->where('condominium_id', $condominiumId)
+                    ->where('block', $blockToCheck)
+                    ->whereNull('deleted_at')
+                    ->ignore($apartment),
             ],
             'parking_spot_limit' => ['sometimes', 'required', 'integer', 'min:0', 'max:10'],
         ];
@@ -53,8 +60,8 @@ final class UpdateApartmentRequest extends FormRequest
         return new UpdateApartmentDTO(
             block: $this->has('block') ? $this->validated('block') : $apartment->block,
             number: $this->has('number') ? $this->validated('number') : $apartment->number,
-            parkingSpotLimit: $this->has('parking_spot_limit') ? 
-                                    (int) $this->validated('parking_spot_limit') : $apartment->parking_spot_limit,
+            parkingSpotLimit: $this->has('parking_spot_limit') ?
+                (int) $this->validated('parking_spot_limit') : $apartment->parking_spot_limit,
         );
     }
 }

@@ -34,6 +34,7 @@ final class StoreApartmentRequest extends FormRequest
                 Rule::unique('apartments')->where(fn ($query) =>
                                             $query->where('block', $this->block)
                                             ->where('condominium_id', $this->user()->condominium_id)
+                                            ->whereNull('deleted_at'),
                 ),
             ],
             'parking_spot_limit' => ['required', 'integer', 'min:0', 'max:10'],
