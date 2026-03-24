@@ -13,10 +13,20 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\DTOs\Apartment\UpdateApartmentDTO;
 use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\Models\Apartment;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
 
-class ApartmentController extends Controller
+class ApartmentController extends Controller implements HasMiddleware
 {
     public function __construct(private readonly ApartmentService $apartmentService) {}
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(RoleMiddleware::class . ':sindico', only: ['index', 'store', 'update', 'destroy']),
+        ];
+    }
 
     public function index(): AnonymousResourceCollection
     {
