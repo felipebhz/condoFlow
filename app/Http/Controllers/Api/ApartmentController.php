@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Services\ApartmentService;
 use App\Http\Requests\Apartment\StoreApartmentRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\DTOs\Apartment\UpdateApartmentDTO;
+use App\Http\Requests\Apartment\UpdateApartmentRequest;
+use App\Models\Apartment;
 
 class ApartmentController extends Controller
 {
@@ -21,10 +24,18 @@ class ApartmentController extends Controller
         return ApartmentResource::collection($apartments);
     }
 
-    public function store(StoreApartmentRequest $request)
+    public function store(StoreApartmentRequest $storeApartamentRequest)
     {
-        $apartmentDTO = $request->toDTO();
+        $apartmentDTO = $storeApartamentRequest->toDTO();
         $apartment = $this->apartmentService->createForUser($apartmentDTO);
         return new ApartmentResource($apartment);
+    }
+
+    public function update(UpdateApartmentRequest $updateApartmentRequest, Apartment $apartment)
+    {
+        //$apartmentToUpdate = $updateApartmentRequest->apartment;
+        $apartmentDTO = $updateApartmentRequest->toDTO($apartment);
+        $updatedApartment = $this->apartmentService->update($apartment, $apartmentDTO);
+        return new ApartmentResource($updatedApartment);
     }
 }
