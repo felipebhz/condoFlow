@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApartmentController;
+use App\Http\Controllers\Api\ApartmentResidentController;
 use App\Http\Controllers\Api\CondominiumController;
 use App\Models\Condominium;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('apartments', ApartmentController::class);
-
+    Route::post('apartments/{apartment}/residents', [ApartmentResidentController::class, 'store']);
     Route::apiResource('condominiuns', CondominiumController::class);
 });
 

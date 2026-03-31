@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -67,5 +68,12 @@ class User extends Authenticatable
         return null === $this->condominium_id
             && $this->is_active
             && $this->is_super_admin;
+    }
+
+    public function apartments(): BelongsToMany
+    {
+        return $this->belongsToMany(Apartment::class)
+            ->withPivot(['is_owner', 'is_active'])
+            ->withTimestamps();
     }
 }
